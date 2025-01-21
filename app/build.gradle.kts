@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.calcula.adevintachallengetest"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.calcula.adevintachallengetest"
@@ -37,7 +37,7 @@ android {
 }
 
 dependencies {
-
+    api(project(":presentation"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

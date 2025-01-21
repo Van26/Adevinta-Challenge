@@ -5,12 +5,12 @@ import cmm.apps.adevinta.datasource_remote.user.model.UserRemoteModel
 
 fun UserRemoteModel.toUserDataModel(): UserDataModel {
     return UserDataModel(
-        uuid = uuid ?: "",
+        uuid = profile.uuid ?: "",
         firstName = name.firstName,
         lastName = name.lastName,
         email = email,
         phone = phone,
-        imageUrl = imageUrl,
+        imageUrl = picture?.imageUrl,
         gender = gender,
         title = name.title,
         streetName = location.street.streetName,

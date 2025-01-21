@@ -32,7 +32,13 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
 
         remoteList.forEachIndexed { position, remoteUser ->
             if (!localList.contains(remoteUser)) {
-                localDs.saveUser(remoteUser)
+                try {
+                    localDs.saveUser(remoteUser)
+                } catch (e: Exception) {
+                    // Do nothing
+                    var asd = 23
+                    asd++
+                }
             }
             if (position < toPosition) {
                 userList.add(remoteUser.toUser())

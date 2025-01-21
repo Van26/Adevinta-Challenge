@@ -63,5 +63,5 @@ data class AdevintaCardInfoModel(
     val mainText: String,
     val secondaryText: String,
     val tertiaryText: String,
-    val image: Int
+    val imageUrl: String?
 )

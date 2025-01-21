@@ -6,7 +6,7 @@ data class User(
     val lastName: String,
     val email: String,
     val phone: String,
-    val imageUrl: String,
+    val imageUrl: String?,
     val gender: String,
     val title: String,
     val location: Location
@@ -17,7 +17,7 @@ data class Location(
     val streetNumber: Int?,
     val city: String?,
     val state: String?,
-    val postcode: Int?,
+    val postcode: String?,
     val country: String?
 ) {
     fun getFullAddress(): String {

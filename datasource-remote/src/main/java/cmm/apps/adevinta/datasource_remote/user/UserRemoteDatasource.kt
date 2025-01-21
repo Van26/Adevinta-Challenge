@@ -10,7 +10,7 @@ class UserRemoteDatasourceImpl(private val api: AdevintaUserApi) : UserDatasourc
 
     override suspend fun getUserList(): List<UserDataModel> {
         return try {
-            api.getUserList().map { it.toUserDataModel() }
+            api.getUserList().results.map { it.toUserDataModel() }
         } catch (e: Exception) {
             throw manageApiException(e)
         }

@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,12 +43,12 @@ fun UserListScreen(ulvm: UserListViewModel = koinViewModel(), onUserClicked: (po
         }
     }
     AdevintaTheme {
-        UserListView(uiState = uiState, onPrimaryButtonClicked = { position -> ulvm.onUserItemClicked(position) })
+        UserListView(ulvm, uiState = uiState, onUserItemClicked = { position -> ulvm.onUserItemClicked(position) })
     }
 }
 
 @Composable
-fun UserListView(uiState: UserListUiState, onPrimaryButtonClicked: (position: Int) -> Unit) {
+fun UserListView(ulvm: UserListViewModel, uiState: UserListUiState, onUserItemClicked: (position: Int) -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {}
@@ -69,15 +72,48 @@ fun UserListView(uiState: UserListUiState, onPrimaryButtonClicked: (position: In
                     .aspectRatio(1f)
                     .clip(RoundedCornerShape(32.dp))
             )
+            LazyColumnWithEndDetection(uiState.userList, onUserItemClicked = {
+                onUserItemClicked(it)
+            }) {
+                ulvm.loadMoreUsers()
+            }
             Column(modifier = Modifier.fillMaxSize()) {
                 uiState.userList.forEachIndexed { position, userModel ->
                     AdevintaCardInfo(
-                        AdevintaCardInfoModel(userModel.mainText, userModel.secondaryText, userModel.tertiaryText, userModel.image),
-                        onClick = { onPrimaryButtonClicked(position) }
+                        AdevintaCardInfoModel(userModel.mainText, userModel.secondaryText, userModel.tertiaryText, userModel.imageUrl),
+                        onClick = { onUserItemClicked(position) }
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItemClicked: (position: Int) -> Unit, onScrollToEnd: () -> Unit) {
+    val lazyListState = rememberLazyListState()
+
+    LaunchedEffect(lazyListState) {
+        snapshotFlow { lazyListState.layoutInfo.visibleItemsInfo }
+            .collect { visibleItems ->
+                val lastVisibleItemIndex = visibleItems.lastOrNull()?.index
+                if (lastVisibleItemIndex == lazyListState.layoutInfo.totalItemsCount - 1 || lastVisibleItemIndex == null) {
+                    onScrollToEnd()
+                }
+            }
+    }
+
+    LazyColumn(
+        state = lazyListState,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        items(userList.size) { item ->
+            AdevintaCardInfo(
+                userList[item],
+                onClick = { onUserItemClicked(item) }
+            )
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }

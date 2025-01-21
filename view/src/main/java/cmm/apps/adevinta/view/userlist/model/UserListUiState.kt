@@ -1,5 +1,6 @@
 package cmm.apps.adevinta.view.userlist.model
 
+import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.view.R
 import cmm.apps.designsystem.AdevintaCardInfoModel
 import org.koin.core.component.KoinComponent
@@ -9,15 +10,16 @@ data class UserListUiState(
     val userList: List<AdevintaCardInfoModel> = emptyList()
 ) : KoinComponent {
 
-    fun createDefaultUserListUiState(): UserListUiState {
-        return UserListUiState()
+    fun createDefaultUserListUiState(userList: List<User>): UserListUiState {
+        return UserListUiState(userList = userList.map { it.toAdevintaCardInfoModel() })
     }
 
-    fun UserListUiState.loadMoreUsers() {
-        val takeUserFromPosition = userList.size
-        val takeUserToPosition = takeUserFromPosition + 10
-        // get 10 new users
-    }
+    private fun User.toAdevintaCardInfoModel() = AdevintaCardInfoModel(
+        mainText = "$firstName $lastName",
+        secondaryText = email,
+        tertiaryText = phone,
+        imageUrl = imageUrl
+    )
 
 }
 

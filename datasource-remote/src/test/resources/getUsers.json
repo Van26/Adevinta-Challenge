@@ -1,0 +1,60 @@
+{
+  "results": [
+    {
+      "gender": "male",
+      "name": {
+        "title": "Mr",
+        "first": "Adrian",
+        "last": "Diaz"
+      },
+      "location": {
+        "street": {
+          "number": 756,
+          "name": "Cobham Drive"
+        },
+        "city": "Auckland",
+        "state": "Wellington",
+        "country": "New Zealand",
+        "postcode": 94955,
+        "coordinates": {
+          "latitude": "55.3894",
+          "longitude": "124.5226"
+        },
+        "timezone": {
+          "offset": "+4:30",
+          "description": "Kabul"
+        }
+      },
+      "email": "adr26lineas@gmail.com",
+      "login": {
+        "uuid": "ce5a120e-f4ce-4412-a588-24b038d2222e",
+        "username": "adrian326",
+        "password": "litle",
+        "salt": "sW3sgjzv",
+        "md5": "6cdb9eed777e75a84a273a47d5d6e24b",
+        "sha1": "95f66fb774b2a27603bd5dcca17d384502f3b5db",
+        "sha256": "b2bc1361bea9cafee451f403da23b0beef94cb6de036f93697de626f9bce8fbc"
+      },
+      "dob": {
+        "date": "1984-08-02T07:32:35.442Z",
+        "age": 40
+      },
+      "registered": {
+        "date": "2002-07-18T08:04:42.718Z",
+        "age": 22
+      },
+      "phone": "(581)-111-8749",
+      "cell": "(147)-673-6430",
+      "id": {
+        "name": "",
+        "value": null
+      },
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/women/21.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/women/21.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/women/21.jpg"
+      },
+      "nat": "NZ"
+    }
+  ]
+}

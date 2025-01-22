@@ -1,7 +1,9 @@
 package cmm.apps.adevinta.view.screens.userlist
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -30,6 +32,7 @@ import cmm.apps.adevinta.view.screens.userlist.model.UserListEffect
 import cmm.apps.adevinta.view.screens.userlist.model.UserListUiState
 import cmm.apps.designsystem.AdevintaCardInfo
 import cmm.apps.designsystem.AdevintaCardInfoModel
+import cmm.apps.designsystem.AdevintaCircularLoader
 import org.koin.androidx.compose.koinViewModel
 
 @Screen
@@ -52,6 +55,7 @@ fun UserListScreen(ulvm: UserListViewModel = koinViewModel(), onUserClicked: (us
     }
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun UserListView(
     uiState: UserListUiState,
@@ -61,7 +65,7 @@ fun UserListView(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {}
-    ) { innerPadding ->
+    ) {
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -70,7 +74,7 @@ fun UserListView(
                     start = 16.dp,
                     end = 16.dp,
                     top = 0.dp,
-                    bottom = innerPadding.calculateBottomPadding()
+                    bottom = 0.dp
                 )
                 .fillMaxSize()
         ) {
@@ -123,6 +127,16 @@ fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItem
                 onClick = { onUserItemClicked(itemPosition) }
             )
             Spacer(modifier = Modifier.height(8.dp))
+        }
+        item {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                AdevintaCircularLoader()
+            }
         }
     }
 }

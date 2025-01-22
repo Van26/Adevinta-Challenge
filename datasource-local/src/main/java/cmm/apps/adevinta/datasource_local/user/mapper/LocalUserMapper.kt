@@ -17,7 +17,8 @@ fun UserLocalModel.toUserDataModel(): UserDataModel = UserDataModel(
     city = city,
     state = state,
     postcode = postcode,
-    country = country
+    country = country,
+    registeredDate = registeredDate
 )
 
 fun UserDataModel.toUserLocalModel(): UserLocalModel = UserLocalModel(
@@ -34,5 +35,6 @@ fun UserDataModel.toUserLocalModel(): UserLocalModel = UserLocalModel(
     city = city,
     state = state,
     postcode = postcode,
-    country = country
+    country = country,
+    registeredDate = registeredDate
 )

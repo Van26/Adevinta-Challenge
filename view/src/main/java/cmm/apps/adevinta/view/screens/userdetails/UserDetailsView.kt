@@ -1,12 +1,24 @@
 package cmm.apps.adevinta.view.screens.userdetails
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.view.Screen
 import cmm.apps.adevinta.view.screens.userdetails.model.UserDetailsUiState
 import cmm.apps.adevinta.view.theme.AdevintaTheme
+import cmm.apps.designsystem.AdevintaText
+import cmm.apps.designsystem.AdevintaTextStyle
+import cmm.apps.designsystem.utils.decodeUrlFromNavigation
+import coil3.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -25,5 +37,31 @@ fun UserDetailsScreen(
 
 @Composable
 fun UserDetailsView(uiState: UserDetailsUiState) {
-
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {}
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    end = 16.dp,
+                    top = 0.dp,
+                    bottom = innerPadding.calculateBottomPadding()
+                )
+                .fillMaxSize()
+        ) {
+            AsyncImage(
+                modifier = Modifier.size(70.dp),
+                contentScale = ContentScale.Crop,
+                model = uiState.pictureUrl?.decodeUrlFromNavigation(),
+                contentDescription = "Translated description of what the image contains",
+            )
+            AdevintaText(uiState.gender, style = AdevintaTextStyle.HEADING_2, modifier = Modifier.padding(4.dp))
+            AdevintaText(uiState.name, style = AdevintaTextStyle.HEADING_2, modifier = Modifier.padding(4.dp))
+            AdevintaText(uiState.direction, style = AdevintaTextStyle.HEADING_2, modifier = Modifier.padding(4.dp))
+            AdevintaText(uiState.registeredDate, style = AdevintaTextStyle.HEADING_2, modifier = Modifier.padding(4.dp))
+            AdevintaText(uiState.email, style = AdevintaTextStyle.HEADING_2, modifier = Modifier.padding(4.dp))
+        }
+    }
 }

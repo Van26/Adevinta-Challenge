@@ -69,7 +69,7 @@ fun UserListView(
                 .padding(
                     start = 16.dp,
                     end = 16.dp,
-                    top = innerPadding.calculateTopPadding(),
+                    top = 0.dp,
                     bottom = innerPadding.calculateBottomPadding()
                 )
                 .fillMaxSize()

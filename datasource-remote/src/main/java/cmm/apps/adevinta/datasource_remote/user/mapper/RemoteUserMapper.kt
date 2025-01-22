@@ -18,6 +18,7 @@ fun UserRemoteModel.toUserDataModel(): UserDataModel {
         city = location.city,
         state = location.state,
         postcode = location.postcode,
-        country = location.country
+        country = location.country,
+        registeredDate = registered.date
     )
 }

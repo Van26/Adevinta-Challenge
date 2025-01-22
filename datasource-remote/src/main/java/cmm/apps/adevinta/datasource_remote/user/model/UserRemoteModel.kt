@@ -13,7 +13,8 @@ data class UserRemoteModel(
     @SerializedName("gender") val gender: String,
     @SerializedName("email") val email: String,
     @SerializedName("phone") val phone: String,
-    @SerializedName("picture") val picture: PictureRemoteModel?
+    @SerializedName("picture") val picture: PictureRemoteModel?,
+    @SerializedName("registered") val registered: RegisteredRemoteModel
 )
 
 data class ProfileRemoteModel(
@@ -41,4 +42,8 @@ data class StreetRemoteModel(
 
 data class PictureRemoteModel(
     @SerializedName("medium") val imageUrl: String?
+)
+
+data class RegisteredRemoteModel(
+    @SerializedName("date") val date: String
 )

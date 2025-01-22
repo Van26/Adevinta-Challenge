@@ -12,7 +12,8 @@ data class User(
     val imageUrl: String?,
     val gender: String,
     val title: String,
-    val location: Location
+    val location: Location,
+    val registeredDateTime: Long
 )
 
 @Serializable

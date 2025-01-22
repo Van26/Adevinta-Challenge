@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "20382467dcdb6f7a8e227382bc07418b",
+    "identityHash": "2fc49d3676eec309268b0576c91325d9",
     "entities": [
       {
         "tableName": "UserLocalModel",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `uuid` TEXT, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT NOT NULL, `phone` TEXT NOT NULL, `imageUrl` TEXT, `gender` TEXT NOT NULL, `title` TEXT NOT NULL, `streetName` TEXT, `streetNumber` INTEGER, `city` TEXT, `state` TEXT, `postcode` TEXT, `country` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `uuid` TEXT, `firstName` TEXT NOT NULL, `lastName` TEXT NOT NULL, `email` TEXT NOT NULL, `phone` TEXT NOT NULL, `imageUrl` TEXT, `gender` TEXT NOT NULL, `title` TEXT NOT NULL, `streetName` TEXT, `streetNumber` INTEGER, `city` TEXT, `state` TEXT, `postcode` TEXT, `country` TEXT, `registeredDate` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -97,6 +97,12 @@
             "columnName": "country",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "registeredDate",
+            "columnName": "registeredDate",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -112,7 +118,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '20382467dcdb6f7a8e227382bc07418b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2fc49d3676eec309268b0576c91325d9')"
     ]
   }
 }

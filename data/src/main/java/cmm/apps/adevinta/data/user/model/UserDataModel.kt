@@ -14,5 +14,6 @@ data class UserDataModel(
     val city: String?,
     val state: String?,
     val postcode: String?,
-    val country: String?
+    val country: String?,
+    val registeredDate: String
 )

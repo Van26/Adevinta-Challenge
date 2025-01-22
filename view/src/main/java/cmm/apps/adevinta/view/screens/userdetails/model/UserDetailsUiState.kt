@@ -3,6 +3,7 @@ package cmm.apps.adevinta.view.screens.userdetails.model
 import cmm.apps.adevinta.domain.user.model.User
 import java.time.Instant
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import org.koin.core.component.KoinComponent
 
 data class UserDetailsUiState(
@@ -20,7 +21,9 @@ data class UserDetailsUiState(
             gender = user.gender,
             name = "${user.firstName} ${user.lastName}".trim(),
             direction = user.location.getFullAddress(),
-            registeredDate = Instant.ofEpochMilli(user.registeredDateTime).atZone(ZoneId.systemDefault()).toString(),
+            registeredDate = Instant.ofEpochMilli(user.registeredDateTime)
+                .atZone(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")),
             email = user.email
         )
     }

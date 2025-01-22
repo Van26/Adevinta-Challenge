@@ -32,5 +32,4 @@ data class Location(
     private fun formatNullableStrings(vararg strings: String?): String {
         return strings.filter { !it.isNullOrBlank() }.joinToString(", ")
     }
-
 }

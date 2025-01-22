@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -15,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import cmm.apps.designsystem.utils.decodeUrlFromNavigation
@@ -30,23 +32,23 @@ fun AdevintaCardInfo(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick.invoke() },
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.cardElevation(),
         colors = CardDefaults.cardColors().copy(
             contentColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.surface,
             disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             AsyncImage(
-                modifier = Modifier.size(70.dp),
+                modifier = Modifier.size(70.dp).clip(CircleShape),
                 contentScale = ContentScale.Crop,
                 model = model.imageUrl?.decodeUrlFromNavigation(),
-                contentDescription = "Translated description of what the image contains",
+                contentDescription = "Translated description of what the image contains"
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column {

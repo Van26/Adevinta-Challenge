@@ -2,6 +2,7 @@ package cmm.apps.adevinta.data.user
 
 import cmm.apps.adevinta.data.user.datasource.UserDatasource
 import cmm.apps.adevinta.data.user.mapper.toUser
+import cmm.apps.adevinta.data.user.model.UserDataModel
 import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.domain.user.repository.UserRepository
 
@@ -10,12 +11,7 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
     override suspend fun getUserList(toPosition: Int): List<User> {
         val userList = mutableListOf<User>()
 
-        val localList = try {
-            localDs.getUserList()
-        } catch (e: Exception) {
-            emptyList()
-        }
-
+        val localList = getUserList(true)
         localList.forEachIndexed { position, userDataModel ->
             if (position < toPosition) {
                 userList.add(userDataModel.toUser())
@@ -24,21 +20,10 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
             }
         }
 
-        val remoteList = try {
-            remoteDs.getUserList()
-        } catch (e: Exception) {
-            emptyList()
-        }
-
+        val remoteList = getUserList(false)
         remoteList.forEachIndexed { position, remoteUser ->
             if (!localList.contains(remoteUser)) {
-                try {
-                    localDs.saveUser(remoteUser)
-                } catch (e: Exception) {
-                    // Do nothing
-                    var asd = 23
-                    asd++
-                }
+                saveUser(remoteUser)
             }
             if (position < toPosition) {
                 userList.add(remoteUser.toUser())
@@ -46,6 +31,22 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
         }
 
         return userList
+    }
+
+    private suspend fun getUserList(isFromLocal: Boolean): List<UserDataModel> = try {
+        if (isFromLocal) {
+            localDs.getUserList()
+        } else {
+            remoteDs.getUserList()
+        }
+    } catch (e: Exception) {
+        emptyList()
+    }
+
+    private suspend fun saveUser(user: UserDataModel) = try {
+        localDs.saveUser(user)
+    } catch (e: Exception) {
+        // Do nothing
     }
 
 }

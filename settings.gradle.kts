@@ -19,10 +19,11 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Adevinta Challenge Test"
+rootProject.name = "Adevinta"
 include(":app")
-include(":presentation")
-include(":shared-test-code")
 include(":domain")
-include(":remote-datasource")
-include(":local-datasource")
+include(":data")
+include(":datasource-remote")
+include(":view")
+include(":datasource-local")
+include(":designsystem")

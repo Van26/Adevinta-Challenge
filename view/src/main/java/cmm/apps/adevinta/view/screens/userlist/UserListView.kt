@@ -22,11 +22,13 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.view.Screen
+import cmm.apps.adevinta.view.screens.userlist.UserListScreenTestTags.USER_LIST_CONTENT
 import cmm.apps.adevinta.view.theme.AdevintaTheme
 import cmm.apps.adevinta.view.screens.userlist.model.UserListEffect
 import cmm.apps.adevinta.view.screens.userlist.model.UserListUiState
@@ -77,6 +79,7 @@ fun UserListView(
                     bottom = 0.dp
                 )
                 .fillMaxSize()
+                .testTag(USER_LIST_CONTENT)
         ) {
             Image(
                 painter = painterResource(id = uiState.icon), contentDescription = "App logo",
@@ -104,7 +107,7 @@ fun UserListView(
 }
 
 @Composable
-fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItemClicked: (position: Int) -> Unit, onScrollToEnd: () -> Unit) {
+fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItemClicked: (position: Int) -> Unit, onBottomScrollReached: () -> Unit) {
     val lazyListState = rememberLazyListState()
 
     LaunchedEffect(lazyListState) {
@@ -112,7 +115,7 @@ fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItem
             .collect { visibleItems ->
                 val lastVisibleItemIndex = visibleItems.lastOrNull()?.index
                 if (lastVisibleItemIndex == lazyListState.layoutInfo.totalItemsCount - 1 || lastVisibleItemIndex == null) {
-                    onScrollToEnd()
+                    onBottomScrollReached()
                 }
             }
     }
@@ -139,4 +142,8 @@ fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItem
             }
         }
     }
+}
+
+object UserListScreenTestTags {
+    const val USER_LIST_CONTENT = "user list content"
 }

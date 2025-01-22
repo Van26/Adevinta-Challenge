@@ -1,56 +1,80 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kover)
 }
 
 android {
-    namespace = "com.calcula.adevintachallengetest"
-    compileSdk = 35
+    namespace = "cmm.apps.adevinta"
+    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.calcula.adevintachallengetest"
-        minSdk = 27
+        applicationId = "cmm.apps.adevinta"
+        minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 101000
+        versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
-
+    signingConfigs {
+        create("release") {
+            storeFile = file("../devintabuild.keystore.jks")
+            keyAlias = System.getenv("BUILD_KEY_ALIAS")
+            keyPassword = System.getenv("BUILD_KEY_PASSWORD")
+            storePassword = System.getenv("BUILD_STORE_PASSWORD")
+        }
+    }
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
     buildFeatures {
-        compose = true
+        flavorDimensions += "environment"
     }
+
+    productFlavors {
+        create("prod") {
+            dimension = "environment"
+        }
+        create("qa") {
+            dimension = "environment"
+        }
+    }
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+    }
+    testOptions.unitTests.isIncludeAndroidResources = true
 }
 
 dependencies {
-    api(project(":presentation"))
+    implementation(project(":view"))
+    implementation(project(":datasource-remote"))
+    implementation(project(":datasource-local"))
+
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.android)
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(libs.mockk)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.room.ktx)
+    testImplementation(libs.room)
+    testImplementation(libs.androidx.junit.ktx)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+
 }

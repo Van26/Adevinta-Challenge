@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+    <application
+        android:allowBackup="true"
+        android:theme="@style/Theme.AdevintaView.Starting"
+        tools:targetApi="31">
+        <activity
+            android:name="cmm.apps.adevinta.view.MainActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

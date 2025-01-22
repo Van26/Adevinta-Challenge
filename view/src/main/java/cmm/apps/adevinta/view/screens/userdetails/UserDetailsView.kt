@@ -14,17 +14,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.view.Screen
+import cmm.apps.adevinta.view.screens.userdetails.UserDetailsScreenTestTags.USER_DETAILS_CONTENT
 import cmm.apps.adevinta.view.screens.userdetails.model.UserDetailsUiState
 import cmm.apps.adevinta.view.theme.AdevintaTheme
 import cmm.apps.designsystem.AdevintaText
 import cmm.apps.designsystem.AdevintaTextStyle
 import cmm.apps.designsystem.utils.decodeUrlFromNavigation
-import coil3.compose.AsyncImage
+import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -55,7 +57,8 @@ fun UserDetailsView(uiState: UserDetailsUiState) {
                     top = innerPadding.calculateTopPadding(),
                     bottom = innerPadding.calculateBottomPadding()
                 )
-                .fillMaxSize(),
+                .fillMaxSize()
+                .testTag(USER_DETAILS_CONTENT),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(16.dp))
@@ -100,4 +103,8 @@ fun UserDetailsView(uiState: UserDetailsUiState) {
             )
         }
     }
+}
+
+object UserDetailsScreenTestTags {
+    const val USER_DETAILS_CONTENT = "user details content"
 }

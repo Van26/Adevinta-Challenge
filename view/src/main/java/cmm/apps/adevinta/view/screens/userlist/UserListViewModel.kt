@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class UserListViewModel(private val getMyEventListUseCase: GetSavedUserUseCase) : ViewModel() {
+class UserListViewModel(private val getUserListUseCase: GetSavedUserUseCase) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserListUiState())
     val uiState: StateFlow<UserListUiState> = _uiState.asStateFlow()
@@ -37,7 +37,7 @@ class UserListViewModel(private val getMyEventListUseCase: GetSavedUserUseCase) 
 
     fun loadMoreUsers() {
         viewModelScope.launch {
-            val result = getMyEventListUseCase(_uiState.value.userList.size + NEW_USERS_QUANTITY)
+            val result = getUserListUseCase(_uiState.value.userList.size + NEW_USERS_QUANTITY)
             result.onSuccess { userList ->
                 _uiState.value = UserListUiState().createDefaultUserListUiState(userList)
                 userListOnScreen = userList

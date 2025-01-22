@@ -1,10 +1,11 @@
-package cmm.apps.adevinta.view.userlist
+package cmm.apps.adevinta.view.screens.userlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import cmm.apps.adevinta.domain.user.GetSavedUserUseCase
-import cmm.apps.adevinta.view.userlist.model.UserListEffect
-import cmm.apps.adevinta.view.userlist.model.UserListUiState
+import cmm.apps.adevinta.domain.user.model.User
+import cmm.apps.adevinta.view.screens.userlist.model.UserListEffect
+import cmm.apps.adevinta.view.screens.userlist.model.UserListUiState
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,15 +20,19 @@ class UserListViewModel(private val getMyEventListUseCase: GetSavedUserUseCase) 
     private val _uiState = MutableStateFlow(UserListUiState())
     val uiState: StateFlow<UserListUiState> = _uiState.asStateFlow()
 
-    private val _effect: MutableSharedFlow<UserListEffect> = MutableSharedFlow(extraBufferCapacity = 2, onBufferOverflow = BufferOverflow.DROP_OLDEST)
+    private val _effect: MutableSharedFlow<UserListEffect> = MutableSharedFlow(extraBufferCapacity = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
     val effect: SharedFlow<UserListEffect> = _effect.asSharedFlow()
+
+    private var userListOnScreen: List<User> = emptyList()
 
     companion object {
         const val NEW_USERS_QUANTITY = 10
     }
 
     fun onUserItemClicked(position: Int) {
-        _effect.tryEmit(UserListEffect.NavigateToUserDetails(position))
+        userListOnScreen.getOrNull(position)?.let {
+            _effect.tryEmit(UserListEffect.NavigateToUserDetails(it))
+        }
     }
 
     fun loadMoreUsers() {
@@ -35,6 +40,7 @@ class UserListViewModel(private val getMyEventListUseCase: GetSavedUserUseCase) 
             val result = getMyEventListUseCase(_uiState.value.userList.size + NEW_USERS_QUANTITY)
             result.onSuccess { userList ->
                 _uiState.value = UserListUiState().createDefaultUserListUiState(userList)
+                userListOnScreen = userList
             }.onFailure { error ->
                 _uiState.value = UserListUiState()
             }.onNoConnectionError {

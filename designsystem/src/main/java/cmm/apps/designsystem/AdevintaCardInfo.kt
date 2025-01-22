@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import cmm.apps.designsystem.utils.decodeUrlFromNavigation
 import coil3.compose.AsyncImage
 
 @Composable
@@ -44,7 +45,7 @@ fun AdevintaCardInfo(
             AsyncImage(
                 modifier = Modifier.size(70.dp),
                 contentScale = ContentScale.Crop,
-                model = model.imageUrl ?: "",
+                model = model.imageUrl?.decodeUrlFromNavigation(),
                 contentDescription = "Translated description of what the image contains",
             )
             Spacer(modifier = Modifier.width(8.dp))

@@ -1,5 +1,8 @@
 package cmm.apps.adevinta.domain.user.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class User(
     val uuid: String?,
     val firstName: String,
@@ -12,6 +15,7 @@ data class User(
     val location: Location
 )
 
+@Serializable
 data class Location(
     val streetName: String?,
     val streetNumber: Int?,

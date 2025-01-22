@@ -1,6 +1,7 @@
 package cmm.apps.adevinta.data.user.mapper
 
 import cmm.apps.adevinta.data.user.model.UserDataModel
+import cmm.apps.adevinta.domain.encodeUrlForNavigation
 import cmm.apps.adevinta.domain.user.model.Location
 import cmm.apps.adevinta.domain.user.model.User
 
@@ -10,7 +11,7 @@ fun UserDataModel.toUser() = User(
     lastName = lastName,
     email = email,
     phone = phone,
-    imageUrl = imageUrl,
+    imageUrl = imageUrl?.encodeUrlForNavigation(),
     gender = gender,
     title = title,
     location = Location(

@@ -1,4 +1,4 @@
-package cmm.apps.adevinta.view.userlist.model
+package cmm.apps.adevinta.view.screens.userlist.model
 
 import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.view.R
@@ -24,5 +24,5 @@ data class UserListUiState(
 }
 
 sealed class UserListEffect {
-    data class NavigateToUserDetails(val position: Int) : UserListEffect()
+    data class NavigateToUserDetails(val user: User) : UserListEffect()
 }

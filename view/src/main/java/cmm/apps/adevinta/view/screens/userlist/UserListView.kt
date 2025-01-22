@@ -1,4 +1,4 @@
-package cmm.apps.adevinta.view.userlist
+package cmm.apps.adevinta.view.screens.userlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -23,32 +23,41 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cmm.apps.adevinta.domain.user.model.User
 import cmm.apps.adevinta.view.Screen
 import cmm.apps.adevinta.view.theme.AdevintaTheme
-import cmm.apps.adevinta.view.userlist.model.UserListEffect
-import cmm.apps.adevinta.view.userlist.model.UserListUiState
+import cmm.apps.adevinta.view.screens.userlist.model.UserListEffect
+import cmm.apps.adevinta.view.screens.userlist.model.UserListUiState
 import cmm.apps.designsystem.AdevintaCardInfo
 import cmm.apps.designsystem.AdevintaCardInfoModel
 import org.koin.androidx.compose.koinViewModel
 
 @Screen
 @Composable
-fun UserListScreen(ulvm: UserListViewModel = koinViewModel(), onUserClicked: (position: Int) -> Unit) {
-    val uiState: UserListUiState by ulvm.uiState.collectAsStateWithLifecycle()
+fun UserListScreen(ulvm: UserListViewModel = koinViewModel(), onUserClicked: (user: User) -> Unit) {
+    val uiState by ulvm.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         ulvm.effect.collect { eff ->
             when (eff) {
-                is UserListEffect.NavigateToUserDetails -> onUserClicked(eff.position)
+                is UserListEffect.NavigateToUserDetails -> onUserClicked(eff.user)
             }
         }
     }
     AdevintaTheme {
-        UserListView(ulvm, uiState = uiState, onUserItemClicked = { position -> ulvm.onUserItemClicked(position) })
+        UserListView(
+            uiState = uiState,
+            onUserItemClicked = { position -> ulvm.onUserItemClicked(position) },
+            onLoadMoreUsers = { ulvm.loadMoreUsers() }
+        )
     }
 }
 
 @Composable
-fun UserListView(ulvm: UserListViewModel, uiState: UserListUiState, onUserItemClicked: (position: Int) -> Unit) {
+fun UserListView(
+    uiState: UserListUiState,
+    onUserItemClicked: (position: Int) -> Unit,
+    onLoadMoreUsers: () -> Unit
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {}
@@ -75,7 +84,7 @@ fun UserListView(ulvm: UserListViewModel, uiState: UserListUiState, onUserItemCl
             LazyColumnWithEndDetection(uiState.userList, onUserItemClicked = {
                 onUserItemClicked(it)
             }) {
-                ulvm.loadMoreUsers()
+                onLoadMoreUsers()
             }
             Column(modifier = Modifier.fillMaxSize()) {
                 uiState.userList.forEachIndexed { position, userModel ->
@@ -108,10 +117,10 @@ fun LazyColumnWithEndDetection(userList: List<AdevintaCardInfoModel>, onUserItem
         state = lazyListState,
         modifier = Modifier.fillMaxSize()
     ) {
-        items(userList.size) { item ->
+        items(userList.size) { itemPosition ->
             AdevintaCardInfo(
-                userList[item],
-                onClick = { onUserItemClicked(item) }
+                userList[itemPosition],
+                onClick = { onUserItemClicked(itemPosition) }
             )
             Spacer(modifier = Modifier.height(8.dp))
         }

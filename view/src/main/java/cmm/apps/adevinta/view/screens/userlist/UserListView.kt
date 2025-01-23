@@ -93,15 +93,6 @@ fun UserListView(
             }) {
                 onLoadMoreUsers()
             }
-            Column(modifier = Modifier.fillMaxSize()) {
-                uiState.userList.forEachIndexed { position, userModel ->
-                    AdevintaCardInfo(
-                        AdevintaCardInfoModel(userModel.mainText, userModel.secondaryText, userModel.tertiaryText, userModel.imageUrl),
-                        onClick = { onUserItemClicked(position) }
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-            }
         }
     }
 }

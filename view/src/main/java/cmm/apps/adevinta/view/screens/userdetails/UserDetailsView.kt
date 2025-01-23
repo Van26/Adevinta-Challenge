@@ -61,48 +61,50 @@ fun UserDetailsView(uiState: UserDetailsUiState) {
                 .testTag(USER_DETAILS_CONTENT),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            AsyncImage(
-                modifier = Modifier.size(120.dp).clip(CircleShape),
-                contentScale = ContentScale.Crop,
-                model = uiState.pictureUrl?.decodeUrlFromNavigation(),
-                contentDescription = "Translated description of what the image contains",
+            UserDetailsTopInfoView(
+                imgUrl = uiState.pictureUrl,
+                textBody = uiState.gender,
+                textHeading = uiState.name
             )
-            AdevintaText(
-                uiState.gender,
-                style = AdevintaTextStyle.BODY_1,
-                modifier = Modifier.padding(4.dp, top = 8.dp),
-                textAlign = TextAlign.Center
-            )
-            AdevintaText(
-                uiState.name,
-                style = AdevintaTextStyle.HEADING_2,
-                modifier = Modifier.padding(4.dp),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            AdevintaText(
-                uiState.direction,
-                style = AdevintaTextStyle.BODY_1,
-                modifier = Modifier.padding(4.dp),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            AdevintaText(
-                uiState.registeredDate,
-                style = AdevintaTextStyle.BODY_1,
-                modifier = Modifier.padding(4.dp),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            AdevintaText(
-                uiState.email,
-                style = AdevintaTextStyle.BODY_1,
-                modifier = Modifier.padding(4.dp),
-                textAlign = TextAlign.Center
-            )
+            UserDetailsItemView(uiState.direction)
+            UserDetailsItemView(uiState.registeredDate)
+            UserDetailsItemView(uiState.email)
         }
     }
+}
+
+@Composable
+fun UserDetailsTopInfoView(imgUrl: String?, textBody: String, textHeading: String) {
+    Spacer(modifier = Modifier.height(16.dp))
+    AsyncImage(
+        modifier = Modifier.size(120.dp).clip(CircleShape),
+        contentScale = ContentScale.Crop,
+        model = imgUrl?.decodeUrlFromNavigation(),
+        contentDescription = "Translated description of what the image contains",
+    )
+    AdevintaText(
+        textBody,
+        style = AdevintaTextStyle.BODY_1,
+        modifier = Modifier.padding(4.dp, top = 8.dp),
+        textAlign = TextAlign.Center
+    )
+    AdevintaText(
+        textHeading,
+        style = AdevintaTextStyle.HEADING_2,
+        modifier = Modifier.padding(4.dp),
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+fun UserDetailsItemView(text: String) {
+    Spacer(modifier = Modifier.height(16.dp))
+    AdevintaText(
+        text,
+        style = AdevintaTextStyle.BODY_1,
+        modifier = Modifier.padding(4.dp),
+        textAlign = TextAlign.Center
+    )
 }
 
 object UserDetailsScreenTestTags {

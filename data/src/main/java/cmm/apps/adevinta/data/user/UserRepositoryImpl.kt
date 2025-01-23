@@ -24,9 +24,9 @@ class UserRepositoryImpl(private val localDs: UserDatasource, private val remote
         remoteList.forEachIndexed { position, remoteUser ->
             if (!localList.contains(remoteUser)) {
                 saveUser(remoteUser)
-            }
-            if (position < toPosition) {
-                userList.add(remoteUser.toUser())
+                if (position < toPosition) {
+                    userList.add(remoteUser.toUser())
+                }
             }
         }
 

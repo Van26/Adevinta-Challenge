@@ -4,6 +4,8 @@ import cmm.apps.adevinta.data.user.model.UserDataModel
 
 object UserDataMock {
 
+    fun provideUserDataModelList(nameList: List<String>): List<UserDataModel> = nameList.map { name -> provideUserDataModel(name) }
+
     fun provideUserDataModel(name: String = "Adrian", lastName: String = "Diaz", email: String = "adr26lineas@gmail.com"): UserDataModel = UserDataModel(
         uuid = "uuid",
         firstName = name,

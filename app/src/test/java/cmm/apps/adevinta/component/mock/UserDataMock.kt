@@ -5,11 +5,11 @@ import cmm.apps.adevinta.data.user.model.UserDataModel
 
 object UserDataMock {
 
-    fun provideUserDataModelList(nameList: List<String>): List<UserDataModel> = nameList.map { provideUserDataModel() }
+    fun provideUserDataModelList(nameList: List<String>): List<UserDataModel> = nameList.map { name -> provideUserDataModel(name) }
 
-    fun provideUserDataModel(): UserDataModel = UserDataModel(
+    fun provideUserDataModel(firstName: String = "Adrian"): UserDataModel = UserDataModel(
         uuid = "uuid",
-        firstName = "name",
+        firstName = firstName,
         lastName = "",
         email = "email",
         phone = "phone",
@@ -22,7 +22,7 @@ object UserDataMock {
         state = "state",
         postcode = "postcode",
         country = "country",
-        registeredDate = "date"
+        registeredDate = "2002-07-18T08:04:42.718Z"
     )
 
 }

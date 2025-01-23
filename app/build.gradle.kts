@@ -60,6 +60,7 @@ android {
 
 dependencies {
     implementation(project(":view"))
+    implementation(project(":designsystem"))
     implementation(project(":datasource-remote"))
     implementation(project(":datasource-local"))
 

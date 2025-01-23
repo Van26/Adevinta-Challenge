@@ -60,7 +60,6 @@ android {
 
 dependencies {
     implementation(project(":view"))
-    implementation(project(":designsystem"))
     implementation(project(":datasource-remote"))
     implementation(project(":datasource-local"))
 
@@ -68,6 +67,7 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.android)
 
+    testImplementation(project(":designsystem"))
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.koin.test)
